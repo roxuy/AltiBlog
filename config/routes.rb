@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   end
   
   root 'welcome#index'
-
+  get '/articles/:topic' => 'articles#filter_topic'
+  
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
