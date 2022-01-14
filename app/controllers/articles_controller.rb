@@ -2,7 +2,7 @@ class ArticlesController < ApplicationController
   http_basic_authenticate_with name: "morron", password: "secret", except: [:index, :show]
 
   def index
-    @articles = Article.all
+    @articles = Article.paginate(page: params[:page], per_page: 10)
   end
 
   def show
@@ -44,8 +44,12 @@ class ArticlesController < ApplicationController
     redirect_to articles_path
   end
 
+  def filter_topic
+    @articles = Article.find(params[:topic])
+  end
+
   private
     def article_params
-      params.require(:article).permit(:title, :text)
+      params.require(:article).permit(:title, :text, :topic)
     end
 end
