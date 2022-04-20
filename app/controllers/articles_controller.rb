@@ -2,11 +2,15 @@ class ArticlesController < ApplicationController
   http_basic_authenticate_with name: "morron", password: "secret", except: [:index, :show]
 
   def index
+    #@articlesX = Article.where(topic: params[:topic]) if params[:topic]
+    @articles = Article.filter_by_topic(params[:topic]) if params[:topic].present?
     @articles = Article.paginate(page: params[:page], per_page: 10)
+  #etc
   end
 
   def show
     @article = Article.find(params[:id])
+    @comments = @article.comments.paginate(page: params[:page], per_page: 3)
   end
   
   def new
@@ -44,7 +48,11 @@ class ArticlesController < ApplicationController
     redirect_to articles_path
   end
 
-  def filter_topic
+  #def filter_topic
+  #  @articles = Article.find(params[:topic])
+  #end
+
+  def filter_between_previous_version
     @articles = Article.find(params[:topic])
   end
 
