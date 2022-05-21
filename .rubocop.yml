@@ -1,0 +1,6 @@
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'config/initializers/simple_form.rb'  
+Style/Documentation:
+  Enabled: false
