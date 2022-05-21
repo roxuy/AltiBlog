@@ -6,6 +6,7 @@ class ArticlesController < ApplicationController
   def index
     @articles = Article.paginate(page: params[:page], per_page: 10)
     @articles = Article.filter_by_topic(params[:topic]) if params[:topic].present?
+    @articles = Article.filter_by_previous_version_range(params[:date1],params[:date2]) if params[:date1]&&params[:date2].present?
   end
 
   def show
@@ -46,10 +47,6 @@ class ArticlesController < ApplicationController
     @article.destroy
 
     redirect_to articles_path
-  end
-
-  def filter_between_previous_version
-    @articles = Article.find(params[:topic])
   end
 
   private
