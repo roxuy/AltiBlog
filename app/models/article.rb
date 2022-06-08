@@ -2,10 +2,12 @@
 
 class Article < ApplicationRecord
   scope :filter_by_topic, ->(topic) { where topic: topic }
-  #scope :filter_by_previous_version_range, lambda { |start_date, end_date|
+  # scope :filter_by_previous_version_range, lambda { |start_date, end_date|
   #                                           where('previous_version_date BETWEEN ? AND ?', start_date, end_date)
   #                                         }
-  scope :filter_by_previous_version_range, lambda { |date1, date2| where(["date(previous_version_date) between ? and ?", date1, date2]) }
+  scope :filter_by_previous_version_range, lambda { |date1, date2|
+                                             where(['date(previous_version_date) between ? and ?', date1, date2])
+                                           }
   has_many :comments, dependent: :destroy
   validates :title, presence: true,
                     length: { minimum: 5 }
